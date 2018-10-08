@@ -2,9 +2,9 @@ package ru.kpfu.itis.group11501.cinema.entity;
 
 public class Movie {
     String name;
-    Long year;
+    int year;
 
-    public Movie(String name, Long year) {
+    public Movie(String name, int year) {
         this.name = name;
         this.year = year;
     }
@@ -17,11 +17,11 @@ public class Movie {
         this.name = name;
     }
 
-    public Long getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Long year) {
+    public void setYear(int year) {
         this.year = year;
     }
 }
