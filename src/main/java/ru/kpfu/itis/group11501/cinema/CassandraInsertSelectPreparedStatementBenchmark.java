@@ -9,16 +9,16 @@ import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import ru.kpfu.itis.group11501.cinema.config.CassandraConfig;
 import ru.kpfu.itis.group11501.cinema.entity.Movie;
-import ru.kpfu.itis.group11501.cinema.entity.MovieStatistic;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-@BenchmarkMode(Mode.AverageTime)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@BenchmarkMode(Mode.Throughput)
+@OutputTimeUnit(TimeUnit.SECONDS)
 @Fork(1)
-@Warmup(iterations = 10)
-public class MyBenchmark2 {
+@Warmup(iterations = 1)
+@Measurement(iterations = 1)
+public class CassandraInsertSelectPreparedStatementBenchmark {
 
     @State(Scope.Benchmark)
     public static class MyState {
@@ -28,15 +28,17 @@ public class MyBenchmark2 {
             this.session = CassandraConfig.getSession();
         }
 
+        @TearDown(Level.Trial)
+        public void doTearDown() {
+            CassandraConfig.closeConnection();
+        }
 
         @Setup(Level.Invocation)
         public void setupMovie() {
             this.movie =  new Movie(RandomStringUtils.randomAlphabetic(10),new Random().nextLong());
         }
 
-
         public Session session;
-        public MovieStatistic movieStatistic;
         public Movie movie;
 
     }

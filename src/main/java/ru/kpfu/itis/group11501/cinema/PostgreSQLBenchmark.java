@@ -38,8 +38,6 @@ import ru.kpfu.itis.group11501.cinema.config.PostgreSQLConfig;
 import ru.kpfu.itis.group11501.cinema.entity.MovieStatistic;
 import ru.kpfu.itis.group11501.cinema.repository.MovieStatisticRepository;
 import ru.kpfu.itis.group11501.cinema.repository.postgres.MovieStatisticRepositoryPostgres;
-
-import javax.persistence.EntityManagerFactory;
 import java.util.concurrent.TimeUnit;
 
 
@@ -47,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Fork(1)
 @Warmup(iterations = 10)
-public class MyBenchmark {
+public class PostgreSQLBenchmark {
 
 
 
@@ -88,7 +86,6 @@ public class MyBenchmark {
     public void insertMethod(MyState state) {
         state.movieStatisticRepository.addMovieStatistic(state.movieStatistic);
     }
-
 
 
 }
