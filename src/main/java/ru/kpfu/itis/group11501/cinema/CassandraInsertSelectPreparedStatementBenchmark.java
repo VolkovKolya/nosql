@@ -27,6 +27,10 @@ public class CassandraInsertSelectPreparedStatementBenchmark {
         @Setup(Level.Trial)
         public void doSetup() {
             this.session = CassandraConfig.getSession();
+            this.preparedStatementInsert= this.session.prepare(
+                    "insert into test_keyspace.film_table (name, year) values (?, ?)");
+            this.preparedStatementSelect= this.session.prepare(
+                    "SELECT * FROM test_keyspace.film_table where name = ?");
         }
 
         @TearDown(Level.Trial)
@@ -42,24 +46,23 @@ public class CassandraInsertSelectPreparedStatementBenchmark {
         public Session session;
         public Movie movie;
 
+        public PreparedStatement preparedStatementInsert;
+        public PreparedStatement preparedStatementSelect;
+
     }
 
 
     @Benchmark
     public void insertMethodTest(MyState state) {
-        PreparedStatement prepared = state.session.prepare(
-                "insert into test_keyspace.film_table (name, year) values (?, ?)");
         Movie movie = state.movie;
-        BoundStatement bound = prepared.bind(movie.getName(),movie.getYear());
+        BoundStatement bound = state.preparedStatementInsert.bind(movie.getName(),movie.getYear());
         state.session.execute(bound);
     }
 
     @Benchmark
     public void selectMethodTest(Blackhole blackhole,MyState state) {
-        PreparedStatement prepared = state.session.prepare(
-                "SELECT * FROM test_keyspace.film_table where name = ?");
         Movie movie = state.movie;
-        BoundStatement bound = prepared.bind(movie.getName());
+        BoundStatement bound = state.preparedStatementSelect.bind(movie.getName());
         ResultSet rs = state.session.execute(bound);
         blackhole.consume(rs);
     }

@@ -7,8 +7,6 @@ public class MovieStatistic {
 
     private Long movieId;
     private String countryName;
-    private LocalDateTime localDateTime;
-    private String salt;
     private int year;
     private int month;
     private double percent;
@@ -40,22 +38,6 @@ public class MovieStatistic {
 
     public void setCountryName(String countryName) {
         this.countryName = countryName;
-    }
-
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public int getYear() {
