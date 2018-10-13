@@ -1,5 +1,6 @@
 package ru.kpfu.itis.group11501.cinema;
 
+
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
@@ -52,6 +53,7 @@ public class Test {
         timer.schedule(new MyTask(session), 0, 10000);
         Thread.sleep(100000);
         System.out.println(map.toString());
+
 
 
     }
