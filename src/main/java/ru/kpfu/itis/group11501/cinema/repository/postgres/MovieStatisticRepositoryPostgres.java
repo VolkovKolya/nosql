@@ -35,10 +35,11 @@ public class MovieStatisticRepositoryPostgres implements MovieStatisticRepositor
     }
 
     private String getKey(MovieStatistic movieStatistic) {
-        return movieStatistic.getMovieId() + "_"
+        /*return movieStatistic.getMovieId() + "_"
                 + movieStatistic.getCountryName() + "_"
                 + Timestamp.valueOf(movieStatistic.getLocalDateTime()) + "_"
-                + movieStatistic.getSalt();
+                + movieStatistic.getSalt();*/
+        return null;
     }
 
     private String getDoc(MovieStatistic movieStatistic) {

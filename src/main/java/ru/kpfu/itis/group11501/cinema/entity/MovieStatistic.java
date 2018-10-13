@@ -1,7 +1,5 @@
 package ru.kpfu.itis.group11501.cinema.entity;
 
-import java.time.LocalDateTime;
-
 
 public class MovieStatistic {
 
