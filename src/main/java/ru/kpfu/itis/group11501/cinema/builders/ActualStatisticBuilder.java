@@ -1,6 +1,6 @@
 package ru.kpfu.itis.group11501.cinema.builders;
 
-import ru.kpfu.itis.group11501.cinema.Country;
+import ru.kpfu.itis.group11501.cinema.entity.Country;
 import ru.kpfu.itis.group11501.cinema.entity.ActualStatistic;
 
 import java.util.Random;

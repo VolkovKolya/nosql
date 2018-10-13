@@ -1,12 +1,10 @@
 package ru.kpfu.itis.group11501.cinema.builders;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import ru.kpfu.itis.group11501.cinema.Country;
+import ru.kpfu.itis.group11501.cinema.entity.Country;
 import ru.kpfu.itis.group11501.cinema.entity.MovieStatistic;
 
 import java.time.LocalDateTime;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class MovieStatisticBuilder {
     public MovieStatistic buildWithRandomValues() {

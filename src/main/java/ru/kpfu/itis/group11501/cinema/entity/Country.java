@@ -1,4 +1,4 @@
-package ru.kpfu.itis.group11501.cinema;
+package ru.kpfu.itis.group11501.cinema.entity;
 
 import java.util.Random;
 
