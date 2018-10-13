@@ -1,9 +1,12 @@
 package ru.kpfu.itis.group11501.cinema.util;
 
+
 import org.knowm.xchart.*;
+import org.knowm.xchart.style.Styler;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -12,36 +15,25 @@ import java.util.List;
  */
 public class ChartPresenter {
 
-    public static List<XYChart> createChart(){
-        List<XYChart> charts = new ArrayList<XYChart>();
-        XYChart chart = new XYChartBuilder().xAxisTitle("X").yAxisTitle("Y").width(600).height(400).build();
-        XYSeries series = chart.addSeries("Random Series", null, getRandomWalk(200));
+    public static CategoryChart createChart(){
+        CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Current Views").xAxisTitle("Country").yAxisTitle("Views").build();
+        CategorySeries series = chart.addSeries("Random Series", Arrays.asList(0, 1, 2, 3, 4), Arrays.asList(4, 5, 9, 6, 5));
         series.setMarker(SeriesMarkers.NONE);
-        charts.add(chart);
-        return charts;
+        chart.getStyler().setLegendVisible(false);
+        return chart;
     }
 
-    public static void main(String[] args) {
-        SwingWrapper chart = new SwingWrapper<XYChart>(createChart());
+    public static void main(String[] args) throws InterruptedException {
+        SwingWrapper<CategoryChart> chart = new SwingWrapper<>(createChart());
         chart.displayChart();
         while (true){
+            Thread.sleep(1000);
+            ((CategorySeries)chart.getXChartPanel().getChart().getSeriesMap().get("Random Series")).replaceData(Arrays.asList(0, 1, 2, 3, 4), Arrays.asList(10, 10, 10, 10, 10),null);
             chart.repaintChart(0);
         }
     }
 
-    /**
-     * Generates a set of random walk data
-     *
-     * @param numPoints
-     * @return
-     */
-    private static double[] getRandomWalk(int numPoints) {
 
-        double[] y = new double[numPoints];
-        y[0] = 0;
-        for (int i = 1; i < y.length; i++) {
-            y[i] = y[i - 1] + Math.random() - .5;
-        }
-        return y;
-    }
+
+
 }
