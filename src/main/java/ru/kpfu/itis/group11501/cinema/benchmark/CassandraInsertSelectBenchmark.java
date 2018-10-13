@@ -1,4 +1,4 @@
-package ru.kpfu.itis.group11501.cinema;
+package ru.kpfu.itis.group11501.cinema.benchmark;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
