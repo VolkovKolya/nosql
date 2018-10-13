@@ -29,13 +29,11 @@ public class CassandraMovieStatisticInsertSelectBenchmark {
         @Setup(Level.Trial)
         public void doSetup() {
             this.session = CassandraConfig.getSession();
-            //todo
             this.preparedStatementInsert = this.session.prepare(
                     "insert into cinema_statistic.film_statistic "
                             + "(fid,c_name,salt,year,month,percent,f_name)"+
                             " values (?, ?, uuid(), ?, ?, ?, ?)");
 
-            //todo
             this.preparedStatementSelect = this.session.prepare(
                     "SELECT * FROM cinema_statistic.film_statistic where fid = ? ");
         }

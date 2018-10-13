@@ -67,7 +67,11 @@ THE POSSIBILITY OF SUCH DAMAGE.
             <artifactId>spring-orm</artifactId>
             <version>5.0.7.RELEASE</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.knowm.xchart</groupId>
+            <artifactId>xchart</artifactId>
+            <version>3.5.2</version>
+        </dependency>
         <dependency>
             <groupId>com.datastax.cassandra</groupId>
             <artifactId>cassandra-driver-core</artifactId>
