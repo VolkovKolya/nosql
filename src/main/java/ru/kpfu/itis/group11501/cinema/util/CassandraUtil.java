@@ -1,16 +1,20 @@
 package ru.kpfu.itis.group11501.cinema.util;
 
+import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
 import org.apache.commons.lang3.RandomStringUtils;
+import ru.kpfu.itis.group11501.cinema.builders.MovieStatisticBuilder;
 import ru.kpfu.itis.group11501.cinema.config.CassandraConfig;
 import ru.kpfu.itis.group11501.cinema.entity.Movie;
+import ru.kpfu.itis.group11501.cinema.entity.MovieStatistic;
 
 import java.util.Random;
 
 public class CassandraUtil {
     public static void main(String[] args) {
-        benchmarkInsert();
+        millionRowsMovieStatistic();
     }
     private static void millionRows() {
         Session session = CassandraConfig.getSession();
@@ -23,6 +27,26 @@ public class CassandraUtil {
                             + movie.getYear()
                             + ")";
             session.execute(query);
+        }
+    }
+
+    private static void millionRowsMovieStatistic() {
+        Session session = CassandraConfig.getSession();
+        PreparedStatement ps = session.prepare(
+                "insert into cinema_statistic.film_statistic "
+                        + "(fid,c_name,salt,year,month,percent,f_name)"+
+                        " values (?, ?, uuid(), ?, ?, ?, ?)");
+        for (int i=0; i<950000; i++){
+            MovieStatistic movieStatistic =  new MovieStatisticBuilder().buildWithRandomValues();
+            BoundStatement bound = ps.bind(
+                    movieStatistic.getMovieId(),
+                    movieStatistic.getCountryName(),
+                    movieStatistic.getYear(),
+                    movieStatistic.getMonth(),
+                    movieStatistic.getPercent(),
+                    movieStatistic.getMovieName()
+            );
+            session.execute(bound);
         }
     }
 
@@ -43,4 +67,6 @@ public class CassandraUtil {
         double second = ((double)(System.nanoTime() - start))/1_000_000_000;
         System.out.println("Elapsed: "+ n/second + " ops/s");
     }
+
+
 }
