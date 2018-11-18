@@ -8,7 +8,9 @@ import ru.kpfu.itis.group11501.cinema.rowmapper.MovieStatisticRowMapper;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-public class MovieStatisticRepositoryPostgres implements MovieStatisticRepository {
+//not working for new application structure
+@Deprecated
+public class MovieStatisticRepositoryPostgres  {
 
     private JdbcTemplate[] jdbcTemplates;
 
@@ -22,13 +24,13 @@ public class MovieStatisticRepositoryPostgres implements MovieStatisticRepositor
     private static final String sqlStatistic = "";
 
 
-    @Override
+
     public MovieStatistic getMovieStatisticById(String id) {
         JdbcTemplate jdbcTemplate = jdbcTemplates[0];
         return jdbcTemplate.queryForObject(sqlGetById, new Object[]{id}, new MovieStatisticRowMapper());
     }
 
-    @Override
+
     public void addMovieStatistic(MovieStatistic movieStatistic) {
         JdbcTemplate jdbcTemplate = jdbcTemplates[0];
         jdbcTemplate.update(sqlInsert,getKey(movieStatistic),getDoc(movieStatistic));

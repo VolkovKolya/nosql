@@ -14,6 +14,15 @@ public class MovieStatistic {
     public MovieStatistic() {
     }
 
+    public MovieStatistic(Long movieId, String countryName, int year, int month, double percent, String movieName) {
+        this.movieId = movieId;
+        this.countryName = countryName;
+        this.year = year;
+        this.month = month;
+        this.percent = percent;
+        this.movieName = movieName;
+    }
+
     public Long getMovieId() {
         return movieId;
     }

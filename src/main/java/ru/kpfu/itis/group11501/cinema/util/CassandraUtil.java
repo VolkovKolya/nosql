@@ -9,6 +9,8 @@ import ru.kpfu.itis.group11501.cinema.builders.MovieStatisticBuilder;
 import ru.kpfu.itis.group11501.cinema.config.CassandraConfig;
 import ru.kpfu.itis.group11501.cinema.entity.Movie;
 import ru.kpfu.itis.group11501.cinema.entity.MovieStatistic;
+import ru.kpfu.itis.group11501.cinema.repository.MovieStatisticRepository;
+import ru.kpfu.itis.group11501.cinema.repository.cassandra.MovieStatisticRepositoryCassandra;
 
 import java.util.Random;
 
@@ -31,26 +33,16 @@ public class CassandraUtil {
     }
 
     private static void millionRowsMovieStatistic() {
-        Session session = CassandraConfig.getSession();
-        PreparedStatement ps = session.prepare(
-                "insert into cinema_statistic.film_statistic "
-                        + "(fid,c_name,salt,year,month,percent,f_name)"+
-                        " values (?, ?, uuid(), ?, ?, ?, ?)");
+        MovieStatisticRepository repository = new MovieStatisticRepositoryCassandra(CassandraConfig.getSession());
         for (int i=0; i<950000; i++){
             MovieStatistic movieStatistic =  new MovieStatisticBuilder().buildWithRandomValues();
-            BoundStatement bound = ps.bind(
-                    movieStatistic.getMovieId(),
-                    movieStatistic.getCountryName(),
-                    movieStatistic.getYear(),
-                    movieStatistic.getMonth(),
-                    movieStatistic.getPercent(),
-                    movieStatistic.getMovieName()
-            );
-            session.execute(bound);
+            repository.addMovieStatistic(movieStatistic);
         }
     }
 
-    //Elapsed: 959.8023185002082 ops/s
+    //Elapsed: 959.8023185002082 ops/s.
+    //Use CassandraInsertSelectBenchmark
+    @Deprecated
     private static void benchmarkInsert() {
         Session session = CassandraConfig.getSession();
         long start = System.nanoTime();

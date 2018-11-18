@@ -24,4 +24,12 @@ public class Movie {
     public void setYear(Long year) {
         this.year = year;
     }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "name='" + name + '\'' +
+                ", year=" + year +
+                '}';
+    }
 }

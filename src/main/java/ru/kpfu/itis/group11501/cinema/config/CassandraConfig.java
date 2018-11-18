@@ -5,7 +5,7 @@ import com.datastax.driver.core.Session;
 
 
 public class CassandraConfig {
-    private static String[] CONTACT_POINTS = {"192.168.43.101"};
+    private static String[] CONTACT_POINTS = {"192.168.56.101"};
     //9042 default, 9160 for rpc
     private static int PORT = 9042;
     private static Cluster cluster;
