@@ -30,23 +30,29 @@ public class RabbitMQConsumer {
                                        AMQP.BasicProperties properties, byte[] body) throws IOException {
                 ObjectMapper mapper = new ObjectMapper();
                 MovieStatistic movieStatistic = mapper.readValue(new String(body), MovieStatistic.class);
-                //System.out.println(" [x] Received '" + envelope.getRoutingKey() + "': movieId='" + movieStatistic.getMovieId() + "'");
+                System.out.println(" [x] Received '" + envelope.getRoutingKey() + "': movieId='" + movieStatistic.getMovieId() + "'");
                 String operation = properties.getHeaders().get("operation").toString();
                 MovieStatisticRepository movieStatisticRepository = new MovieStatisticRepositoryCassandra(CassandraConfig.getSession());
-                switch (operation){
-                    case "create":
-                        movieStatisticRepository.addMovieStatistic(movieStatistic);
-                        break;
-                    case "read":
-                        movieStatisticRepository.getMovieStatisticByMovieId(movieStatistic.getMovieId());
-                        break;
-                    case "update":
-                        movieStatisticRepository.updateMovieStatistic(movieStatistic);
-                        break;
-                    case "delete":
-                        movieStatisticRepository.deleteMovieStatisticByMovieId(movieStatistic.getMovieId());
-                        break;
+                try {
+                    switch (operation) {
+                        case "create":
+                            movieStatisticRepository.addMovieStatistic(movieStatistic);
+                            break;
+                        case "read":
+                            movieStatisticRepository.getMovieStatisticByMovieId(movieStatistic.getMovieId());
+                            break;
+                        case "update":
+                            movieStatisticRepository.updateMovieStatistic(movieStatistic);
+                            break;
+                        case "delete":
+                            movieStatisticRepository.deleteMovieStatisticByMovieId(movieStatistic.getMovieId());
+                            break;
+                    }
                 }
+                catch(Exception e){
+                    //System.out.println(e);
+                    }
+
             }
         };
         channel.basicConsume(queueName, true, consumer);
