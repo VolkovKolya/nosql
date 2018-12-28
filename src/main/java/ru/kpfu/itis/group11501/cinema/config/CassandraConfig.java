@@ -32,7 +32,4 @@ public class CassandraConfig {
         session.close();
         cluster.close();
     }
-
-
-
 }
