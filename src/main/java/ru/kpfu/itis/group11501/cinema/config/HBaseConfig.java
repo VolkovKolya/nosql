@@ -27,11 +27,11 @@ public class HBaseConfig {
 
         try {
             HBaseAdmin.available(hConf);
-            System.out.println("Damir hui");
+            System.out.println("Damir");
         } catch (Exception e){
             e.printStackTrace();
         }
-
+        //System.exit(0);
         Connection connection = ConnectionFactory.createConnection(hConf);
         Admin admin = connection.getAdmin();
 
@@ -42,12 +42,12 @@ public class HBaseConfig {
         String video = "video";
         String stats = "statistics";
 
-        HTableDescriptor desc = new HTableDescriptor(tableName);
+        /*HTableDescriptor desc = new HTableDescriptor(tableName);
         desc.addFamily(new HColumnDescriptor(country));
         desc.addFamily(new HColumnDescriptor(movies));
         desc.addFamily(new HColumnDescriptor(video));
         desc.addFamily(new HColumnDescriptor(stats));
-        admin.createTable(desc);
+        admin.createTable(desc);*/
 
         Table table = connection.getTable(tableName);
 
@@ -71,23 +71,24 @@ public class HBaseConfig {
             put.addColumn(video.getBytes(), "length".getBytes(), ByteBuffer.allocate(4).putInt(r.nextInt(1000)).array());
             put.addColumn(video.getBytes(), "size".getBytes(), ByteBuffer.allocate(4).putInt(r.nextInt(300)).array());
             put.addColumn(video.getBytes(), "link".getBytes(), ("http://danilbestboy.com/movie/" + key).getBytes());
+            table.put(p);
         }
 
         long start = System.nanoTime();
 
-        for (int i = 0; i < 100000; i++){
+        for (int i = 0; i < 1_000_000; i++){
             Date date = new Date();
             Random r = new Random();
             String key = keys.get(r.nextInt(4));
             Put put = new Put(Bytes.toBytes(key));
-            put.addColumn(stats.getBytes(), "timestamp".getBytes(), ByteBuffer.allocate(4).putLong(date.getTime()).array());
+            put.addColumn(stats.getBytes(), "timestamp".getBytes(), ByteBuffer.allocate(8).putLong(date.getTime()).array());
             put.addColumn(stats.getBytes(), "percent".getBytes(), ByteBuffer.allocate(4).putInt(r.nextInt(100)).array());
             put.addColumn(stats.getBytes(), "uID".getBytes(), ("" + i + 1000).getBytes());
+            table.put(p);
         }
 
-        double second = ((double)(System.nanoTime() - start))/1_000_000_000;
+        double second = ((double)(System.nanoTime() - start))/1_000_000;
         System.out.println("Elapsed: "+ 100000/second + " ops/s");
-
 
         //Retrieving data from DB
         /*Get g = new Get(row);
