@@ -76,7 +76,7 @@ public class HBaseConfig {
 
         long start = System.nanoTime();
 
-        for (int i = 0; i < 1_000_000; i++){
+        for (int i = 0; i < 1_000_0; i++){
             Date date = new Date();
             Random r = new Random();
             String key = keys.get(r.nextInt(4));
@@ -87,7 +87,7 @@ public class HBaseConfig {
             table.put(p);
         }
 
-        double second = ((double)(System.nanoTime() - start))/1_000_000;
+        double second = ((double)(System.nanoTime() - start))/1_000_0;
         System.out.println("Elapsed: "+ 100000/second + " ops/s");
 
         //Retrieving data from DB
